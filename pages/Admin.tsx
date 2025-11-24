@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNews } from '../context/NewsContext';
 import { Article, EPaperPage, User, Advertisement, AdSize } from '../types';
-import { Trash2, Upload, FileText, Image as ImageIcon, Sparkles, Video, Save, Edit, CheckCircle, Calendar, XCircle, Users, Ban, Power, Megaphone, Globe, Layout, ExternalLink, Clock, RefreshCw, Eye, MousePointerClick, Type, X, Shield, ShieldAlert, Check, Key, Settings, Lock, Mail, Send, DollarSign, CreditCard, Film } from 'lucide-react';
+import { Trash2, Upload, FileText, Image as ImageIcon, Sparkles, Video, Save, Edit, CheckCircle, Calendar, Users, Ban, Power, Shield, ShieldAlert, Settings, Mail, DollarSign, CreditCard, Film, Type, X } from 'lucide-react';
 import { CATEGORIES, CHIEF_EDITOR_ID } from '../constants';
 import { Link } from 'react-router-dom';
 
