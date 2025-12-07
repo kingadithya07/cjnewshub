@@ -5,10 +5,10 @@ import { useNews } from '../context/NewsContext';
 import { AdSpace } from '../components/AdSpace';
 import { AdSize } from '../types';
 import { useNavigate } from 'react-router-dom';
-import { PlayCircle, Clock, ArrowRight } from 'lucide-react';
+import { PlayCircle, Clock, ArrowRight, Eye } from 'lucide-react';
 
 export const Home: React.FC = () => {
-  const { articles, incrementArticleView, currentUser } = useNews();
+  const { articles, currentUser } = useNews();
   const navigate = useNavigate();
   
   // Filter for published articles only
@@ -23,7 +23,7 @@ export const Home: React.FC = () => {
     .slice(0, 4);
 
   const handleArticleClick = (id: string) => {
-    incrementArticleView(id);
+    // Note: incrementArticleView is handled inside ArticleDetail page on mount
     navigate(`/article/${id}`);
   };
 
@@ -76,10 +76,16 @@ export const Home: React.FC = () => {
                         </div>
 
                         <div className="flex flex-col gap-3 px-2">
-                             <div className="flex items-center gap-3 text-xs text-gray-500 font-sans uppercase tracking-wider">
-                                <span className="flex items-center gap-1"><Clock size={12}/> {featuredArticle.date}</span>
-                                <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                                <span className="font-bold text-ink">Published by {featuredArticle.author}</span>
+                             <div className="flex items-center justify-between text-xs text-gray-500 font-sans uppercase tracking-wider border-b border-gray-100 pb-2">
+                                <div className="flex items-center gap-3">
+                                    <span className="flex items-center gap-1"><Clock size={12}/> {featuredArticle.date}</span>
+                                    <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                                    <span className="font-bold text-ink">By {featuredArticle.author}</span>
+                                </div>
+                                <div className="flex items-center gap-1 text-gold-dark font-bold">
+                                    <Eye size={14} />
+                                    <span>{featuredArticle.views || 0} Readers</span>
+                                </div>
                              </div>
                              
                              <h2 
@@ -129,10 +135,16 @@ export const Home: React.FC = () => {
                                     alt={article.title} 
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" 
                                 />
+                                <div className="absolute bottom-2 right-2 bg-black/60 text-white text-[10px] px-2 py-1 rounded flex items-center gap-1">
+                                    <Eye size={10} /> {article.views || 0}
+                                </div>
                             </div>
                             
                             <div className="flex flex-col gap-2">
-                                <span className="text-[10px] font-bold text-gold-dark uppercase tracking-widest">{article.category}</span>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-[10px] font-bold text-gold-dark uppercase tracking-widest">{article.category}</span>
+                                    <span className="text-[10px] text-gray-400">{article.date}</span>
+                                </div>
                                 <h3 
                                     className="text-xl font-serif font-bold text-ink leading-snug group-hover:text-gold-dark transition-colors cursor-pointer"
                                     onClick={() => handleArticleClick(article.id)}
@@ -142,7 +154,6 @@ export const Home: React.FC = () => {
                                 <p className="text-sm text-gray-500 font-serif line-clamp-2 leading-relaxed">
                                     {article.excerpt}
                                 </p>
-                                <span className="text-[10px] text-gray-400 mt-1">{article.date}</span>
                             </div>
                         </article>
                     ))}
@@ -161,14 +172,18 @@ export const Home: React.FC = () => {
                 <div>
                     <h4 className="text-lg font-sans font-bold border-b-2 border-ink pb-2 mb-6 uppercase tracking-wider text-xs">Trending Now</h4>
                     <ul className="space-y-6">
-                        {[1, 2, 3, 4].map((i) => (
-                            <li key={i} className="flex gap-4 group cursor-pointer border-b border-gray-100 pb-4 last:border-0">
-                                <span className="text-3xl font-serif font-black text-gray-200 group-hover:text-gold transition-colors">0{i}</span>
+                        {/* We use the same sideArticles for trending demo, or sort by views in a real app */}
+                        {sideArticles.map((article, i) => (
+                            <li key={article.id} className="flex gap-4 group cursor-pointer border-b border-gray-100 pb-4 last:border-0" onClick={() => handleArticleClick(article.id)}>
+                                <span className="text-3xl font-serif font-black text-gray-200 group-hover:text-gold transition-colors">0{i + 1}</span>
                                 <div>
                                     <h5 className="font-serif font-bold text-sm leading-snug group-hover:text-gray-600 transition-colors">
-                                        Diplomatic tensions rise as trade agreements stall in the Pacific region.
+                                        {article.title}
                                     </h5>
-                                    <span className="text-[10px] text-gray-400 uppercase mt-2 block font-bold">2 Hours Ago</span>
+                                    <div className="flex items-center justify-between mt-2">
+                                        <span className="text-[10px] text-gray-400 uppercase font-bold">{article.date}</span>
+                                        <span className="text-[10px] text-gold-dark font-bold flex items-center gap-1"><Eye size={10}/> {article.views || 0}</span>
+                                    </div>
                                 </div>
                             </li>
                         ))}

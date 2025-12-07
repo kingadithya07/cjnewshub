@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useNews } from '../context/NewsContext';
@@ -46,7 +47,7 @@ export const ArticleDetail: React.FC = () => {
         <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 font-sans">
              <div className="flex items-center gap-2">
                 <User size={16} className="text-gold" />
-                <span className="font-bold">Published by {article.author}</span>
+                <span className="font-bold">By {article.author}</span>
              </div>
              <div className="flex items-center gap-2">
                 <Calendar size={16} className="text-gold" />
@@ -54,7 +55,7 @@ export const ArticleDetail: React.FC = () => {
              </div>
              <div className="flex items-center gap-2">
                 <Eye size={16} className="text-gold" />
-                <span>{(article.views || 0) + 1} Views</span> 
+                <span>{article.views || 0} Readers</span> 
              </div>
         </div>
         <button className="flex items-center gap-2 text-gray-500 hover:text-ink transition-colors">
